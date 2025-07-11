@@ -7,7 +7,7 @@ DB = {
     "host": "localhost" ,
     "port": 5432 ,
     "database": "BMS" ,  
-    "user": "nilanazz" ,           
+    "user": "postgres" ,           
     "password": "1234"        
 }
 # MQTT settings

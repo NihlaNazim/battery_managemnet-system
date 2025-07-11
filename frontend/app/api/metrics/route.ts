@@ -18,6 +18,8 @@ const pool = new Pool({
         'SELECT * FROM bms_metrics ORDER BY timestamp DESC LIMIT 10'
         );
 
+        console.log(JSON.stringify(result))
+
         // Return the result rows as JSON
         return NextResponse.json(result.rows);
     } catch (error: any) {
