@@ -18,18 +18,20 @@ const pool = new Pool({
         'SELECT * FROM bms_metrics ORDER BY timestamp DESC LIMIT 10'
         );
 
-        console.log(JSON.stringify(result))
-
         // Return the result rows as JSON
         return NextResponse.json(result.rows);
-    } catch (error: any) {
-        // Log the actual error to the terminal for debugging
-        console.error('DB Error:', error.message);
-
-        // Return a 500 error to the client with error message
-        return NextResponse.json(
-        { error: error.message || 'Database query failed' },
-        { status: 500 }
-        );
+    } catch(error: unknown){
+        if(error instanceof Error){
+            console.error('DB Error', error.message);
+            return NextResponse.json(
+                {error: error.message},
+                {status: 500}
+            );
+        } else{
+            return NextResponse.json(
+                {error: 'Unknown error occured'},
+                {status: 500}
+            );
+        }
     }
 }
