@@ -1,5 +1,5 @@
 // app/api/metrics/route.ts
-import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server'; // its used to send HTTP response in Next.js API routes
 import { Pool } from 'pg';
 
 // PostgreSQL connection pool configuration
@@ -11,6 +11,7 @@ const pool = new Pool({
     port: 5432,
     });
 
+    //this defines an API handler
     export async function GET() {
     try {
         // Query to get the latest 10 BMS readings
@@ -35,3 +36,11 @@ const pool = new Pool({
         }
     }
 }
+
+
+//SUMMARY
+// connect to a psql
+// define a GET API route at api/metrics path
+//Fetches the latest 10 BMS records
+// return then as a json response
+//

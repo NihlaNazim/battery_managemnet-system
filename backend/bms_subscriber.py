@@ -3,15 +3,19 @@ import psycopg2
 import json
 
 # PostgreSQL database configuration
+import os
+
 DB = {
-    "host": "localhost" ,
-    "port": 5432 ,
-    "database": "BMS" ,  
-    "user": "postgres" ,           
-    "password": "1234"        
+    "host": os.getenv("DB_HOST", "localhost"),
+    "port": int(os.getenv("DB_PORT", 5432)),
+    "database": os.getenv("DB_NAME", "BMS"),
+    "user": os.getenv("DB_USER", "postgres"),
+    "password": os.getenv("DB_PASSWORD", "1234")
 }
-# MQTT settings
-MQTT_BROKER = "localhost"
+
+MQTT_BROKER = os.getenv("MQTT_BROKER", "localhost")
+
+
 MQTT_PORT = 1883
 MQTT_TOPIC = "bms/data/BMS001"
 

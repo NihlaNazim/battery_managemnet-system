@@ -1,0 +1,48 @@
+services:
+  mqtt:
+    image: eclipse-mosquitto:latest
+    container_name: mqtt_broker
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+
+  bms_db:
+    image: postgres:13
+    container_name: bms_db
+    environment:
+      POSTGRES_DB: BMS
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  bms_subscriber:
+    build:
+      context: ./backend
+    container_name: bms_subscriber
+    depends_on:
+      - mqtt
+      - bms_db
+    environment:
+      - MQTT_BROKER=mqtt
+      - DB_HOST=bms_db
+      - DB_PORT=5432
+      - DB_NAME=BMS
+      - DB_USER=postgres
+      - DB_PASSWORD=1234
+    command: python bms_subscriber.py
+
+  bms_publisher:
+    build:
+      context: ./backend
+    container_name: bms_publisher
+    depends_on:
+      - mqtt
+    environment:
+      - MQTT_BROKER=mqtt
+    command: python bms_publisher.py
+
+volumes:
+  db_data:
